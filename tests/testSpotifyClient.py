@@ -1,6 +1,6 @@
 import unittest
 from requests import HTTPError
-from spotify.clientCredentialFlow import ClientCredentialFlow
+from spotify.spotifyClient import SpotifyClient
 from spotify.constant import CLIENT_ID, CLIENT_SECRET
 
 
@@ -14,16 +14,13 @@ class TestClientCredentialFlow(unittest.TestCase):
     """
 
     def test_valid_response(self):
-        client = ClientCredentialFlow(CLIENT_ID, CLIENT_SECRET)
-        token = client.getToken()
-        self.assertTrue(isinstance(token, str), "expected token to be of type string")
+        client = SpotifyClient.usingClientCredential(CLIENT_ID, CLIENT_SECRET)
 
     def test_invalid_response(self):
         clientId = "invalid id"
         clientSecret = "invalid secret"
-        client = ClientCredentialFlow(clientId, clientSecret)
         with self.assertRaises(HTTPError): 
-            client.getToken()
+            SpotifyClient.usingClientCredential(clientId, clientSecret)
 
 
 class TestAuthorizationCredentialFlow(unittest.TestCase):
