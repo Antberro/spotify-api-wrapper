@@ -15,7 +15,7 @@ class TestGetTrack(unittest.TestCase):
     def test_valid_response(self):
         trackId = "1LeWIs2hP2r5yOQnVuYoI5"
         result = track.getTrack(trackId)
-        self.assertTrue(isinstance(track, dict), "expected response to be a dictionary")
+        self.assertTrue(isinstance(result, dict), "expected response to be a dictionary")
 
     def test_invalid_response(self):
         trackId = "invalid id"
