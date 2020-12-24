@@ -1,3 +1,5 @@
+from spotify.spotifyClient import SpotifyClient
+
 class AuthorizationCodeFlow(SpotifyClient):
     """
     Represents a SpotifyClient that uses the Authorization Code Flow for authorization.

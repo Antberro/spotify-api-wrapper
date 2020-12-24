@@ -1,3 +1,5 @@
+from spotify.spotifyClient import SpotifyClient
+
 class ClientCredentialFlow(SpotifyClient):
     """
     Represents a SpotifyClient that uses the Client Credential Flow for authorization.
