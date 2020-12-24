@@ -26,6 +26,9 @@ class ClientCredentialFlow(SpotifyClient):
         """
         Gets an authorization token.
 
+        Raises:
+            response.raise_for_status: If the request gives an unsuccessful response.
+
         Returns:
             str: A valid authorization token.
         """
@@ -44,3 +47,4 @@ class ClientCredentialFlow(SpotifyClient):
             return token
         else:
             raise response.raise_for_status()
+        
