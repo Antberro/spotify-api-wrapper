@@ -1,57 +1,64 @@
+import requests
+from spotify.authManager import AuthManager, ClientCredentialFlow, AuthorizationCodeFlow
+from spotify.constant import BASE_URL
+
 class SpotifyClient(object):
     """
     Base class that represents a SpotifyClient that sends HTTP requests to
     the Spotify Web API.
     """
-
-    def sendGetRequest(self, headers: dict, params: dict) -> dict:
+    
+    def __init__(self, authManager: AuthManager):
         """
-        Send a GET request to the Spotify Web API.
+        Creates new instance of SpotifyClient.
 
         Args:
-            headers (dict): Header parameters for GET request.
-            params (dict): Query parameters for GET request.
-
-        Returns:
-            dict: The HTTP response as json data.
+            authManager (AuthManager): The authManager used by the client.
         """
-        pass
+        self.authManager = authManager
+        self.token = self.authManager.getToken()
 
-    def sendPostRequest(self, headers: dict, params: dict) -> dict:
+    @classmethod
+    def usingClientCredential(cls, clientId: str, clientSecret: str):
         """
-        Send a POST request to the Spotify Web API.
+        Creates an instance of SpotiftyClient that uses the Client Credentials Flow for authorization.
 
         Args:
-            headers (dict): Header parameters for POST request.
-            params (dict): Query parameters for POST request.
+            clientId (str): The client id.
+            clientSecret (str): The client secret key.
 
         Returns:
-            dict: The HTTP response as json data.
+            SpotifyClient: An instance of SpotifyClient.
         """
-        pass
+        authFlow = ClientCredentialFlow(clientId, clientSecret)
+        return cls(authFlow)
 
-    def sendPutRequest(self, headers: dict, params: dict) -> dict:
+    @classmethod
+    def usingAuthorizationCode(cls,
+                               clientId: str, 
+                               clientSecret: str, 
+                               redirectURI: str, 
+                               scope: str = None, 
+                               state: str = None, 
+                               showDialog: bool = False):
         """
-        Send a PUT request to the Spotify Web API.
+        Creates an instance of SpotifyClient that uses the Authorization Code Flow for authorization.
 
         Args:
-            headers (dict): Header parameters for PUT request.
-            params (dict): Query parameters for PUT request.
+            clientId (str): The client id.
+            clientSecret (str): The client secret key.
+            redirectURI (str): The URI to redirect to after the user grants or denies permission.
+            scope (str, optional): A space-separated list of scopes. Defaults to None.
+            state (str, optional): Provides protection against attacks such as cross-site request forgery. Defaults to None.
+            showDialog (bool, optional): Whether or not to force the user to approve the app again if they’ve already done so. Defaults to False.
 
         Returns:
-            dict: The HTTP response as json data.
+            SpotifyClient: An instance of SpotifyClient.
         """
-        pass
-
-    def sendDeleteRequest(self, headers: dict, params: dict) -> dict:
-        """
-        Send a DELETE request to the Spotify Web API.
-
-        Args:
-            headers (dict): Header parameters for DELETE request.
-            params (dict): Query parameters for DELETE request.
-
-        Returns:
-            dict: The HTTP response as json data.
-        """
-        pass
+        authFlow = AuthorizationCodeFlow(clientId,
+                                         clientSecret,
+                                         redirectURI,
+                                         scope,
+                                         state,
+                                         showDialog)
+        return cls(authFlow)
