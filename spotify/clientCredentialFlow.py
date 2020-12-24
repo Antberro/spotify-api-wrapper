@@ -1,4 +1,6 @@
+import requests
 from spotify.spotifyClient import SpotifyClient
+from spotify.constant import TOKEN_URL, STATUS_OK
 
 class ClientCredentialFlow(SpotifyClient):
     """
@@ -27,4 +29,18 @@ class ClientCredentialFlow(SpotifyClient):
         Returns:
             str: A valid authorization token.
         """
-        pass
+        # send POST request
+        response = requests.post(
+            TOKEN_URL, {
+            "grant_type": self.grantType,
+            "client_id": self.clientId,
+            "client_secret": self.clientSecret
+        })
+
+        # handle response
+        if response.status_code == STATUS_OK:
+            responseData = response.json()
+            token = responseData["access_token"]
+            return token
+        else:
+            raise response.raise_for_status()
