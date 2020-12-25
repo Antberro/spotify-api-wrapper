@@ -1,7 +1,8 @@
 import requests
+from datetime import datetime
 from spotify.authManager import AuthManager, ClientCredentialFlow, AuthorizationCodeFlow
 from spotify.trackManager import TrackManager
-from spotify.constant import BASE_URL, STATUS_OK
+from spotify.constant import BASE_URL, STATUS_OK, REFRESH_BUFFER
 
 
 class SpotifyClient(object):
@@ -17,9 +18,16 @@ class SpotifyClient(object):
         Args:
             authManager (AuthManager): The authManager used by the client.
         """
-        self.authManager = authManager
-        self.token = self.authManager.getToken()
+        # send authorization request
+        authResponse = authManager.authorize()
 
+        # define class attributes
+        self.authManager = authManager
+        self.creationTime = datetime.now()
+        self.token = authResponse["access_token"]
+        self.expiresIn = authResponse["expires_in"]
+
+        # define api managers
         self.track = TrackManager(self)
 
     @classmethod
@@ -66,6 +74,27 @@ class SpotifyClient(object):
                                          state,
                                          showDialog)
         return cls(authFlow)
+
+    def getCurrentToken(self) -> str:
+        """
+        Gets the current authorization token if not yet expired. If expired, it fetches
+        a new token.
+
+        Returns:
+            str: A valid authorization token.
+        """
+        # get time since creation in seconds
+        timeDifference = int((datetime.now() - self.creationTime).total_seconds())
+
+        # check if token is about to expire
+        if timeDifference >= self.expiresIn - REFRESH_BUFFER:
+            print("Token Expired! Getting new token...")  #TODO remove this line later
+            authResponse = self.authManager.authorize()
+            self.creationTime = datetime.now()
+            self.token = authResponse["access_token"]
+            self.expiresIn = authResponse["expires_in"]
+
+        return self.token
 
     def _sendHTTPRequest(self, method: str, url: str, params: dict = {}, headers: dict = {}) -> dict:
         """
