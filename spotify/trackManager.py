@@ -30,7 +30,7 @@ class TrackManager(object):
 
         # define param and header args for request
         url = BASE_URL + "/tracks/" + trackId
-        headers = {"Authorization": "Bearer " + self.client.token}
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
         params = {"market": market} if market else {}
 
         # send request
@@ -53,7 +53,7 @@ class TrackManager(object):
 
         # define param and header args for request
         url = BASE_URL + "/tracks"
-        headers = {"Authorization": "Bearer " + self.client.token}
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
         params = {"ids": ",".join(trackIds)}
         if market:
             params["market"] = market
@@ -74,6 +74,14 @@ class TrackManager(object):
             dict: response from Spotify Web API, an audio feature object in json format
         """
         
+        # define param and header args for request
+        url = BASE_URL + "/audio-features/" + trackId
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}  
+        params = {}  
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
 
     def getSeveralAudioFeatures(self) -> dict:
