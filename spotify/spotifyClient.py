@@ -1,8 +1,9 @@
 import requests
 from datetime import datetime
+from spotify.constant import BASE_URL, STATUS_OK, REFRESH_BUFFER
 from spotify.authManager import AuthManager, ClientCredentialFlow, AuthorizationCodeFlow
 from spotify.trackManager import TrackManager
-from spotify.constant import BASE_URL, STATUS_OK, REFRESH_BUFFER
+from spotify.albumManager import AlbumManager
 
 
 class SpotifyClient(object):
@@ -29,6 +30,7 @@ class SpotifyClient(object):
 
         # define api managers
         self.track = TrackManager(self)
+        self.album = AlbumManager(self)
 
     @classmethod
     def usingClientCredential(cls, clientId: str, clientSecret: str):
