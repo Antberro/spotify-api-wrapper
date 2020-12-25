@@ -40,16 +40,27 @@ class TrackManager(object):
 
     def getSeveralTracks(self, trackIds: list, market: str = None) -> dict:
         """
-        Get multiple tracks with the given Spotify ids. Max of 50.
+        Get multiple tracks with the given Spotify ids. Maximum of 50 ids.
 
         Args:
-            trackIds (list): [description]
-            market (str, optional): [description]. Defaults to None.
+            trackIds (list): The list of Spotify track ids.
+            market (str, optional): A country code or "from_token"; used for Track Relinking. Defaults to None.
 
         Returns:
-            dict: [description]
+            dict: response from Spotify Web API, collection of track objects in json format
         """
-        pass
+        assert len(trackIds) <= 50, "expected len(trackIds) <= 50"
+        
+        # define param and header args for request
+        url = BASE_URL + "/tracks"
+        headers = {"Authorization": "Bearer " + self.client.token}
+        params = {"ids": ",".join(trackIds)}
+        if market:
+            params["market"] = market
+        
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
 
     def getAudioFeatures(self) -> dict:
