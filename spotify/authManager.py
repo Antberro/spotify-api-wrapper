@@ -8,12 +8,12 @@ class AuthManager(object):
     using a particular authorization flow.
     """
 
-    def getToken(self) -> str:
+    def authorize(self) -> dict:
         """
         Gets an authorization token.
 
         Returns:
-            str: A valid authorization token.
+            dict: Response from Spotify API in json format.
         """
         pass
 
@@ -38,15 +38,15 @@ class ClientCredentialFlow(AuthManager):
         self.clientSecret = clientSecret
         self.grantType = "client_credentials"
 
-    def getToken(self) -> str:
+    def authorize(self) -> dict:
         """
-        Gets an authorization token.
+        Authorizes with Spotify API.
 
         Raises:
             response.raise_for_status: If the request gives an unsuccessful response.
 
         Returns:
-            str: A valid authorization token.
+            dict: Response from Spotify API in json format
         """
         # send POST request
         response = requests.post(
@@ -59,8 +59,7 @@ class ClientCredentialFlow(AuthManager):
         # handle response
         if response.status_code == STATUS_OK:
             responseData = response.json()
-            token = responseData["access_token"]
-            return token
+            return responseData
         else:
             raise response.raise_for_status()
 
