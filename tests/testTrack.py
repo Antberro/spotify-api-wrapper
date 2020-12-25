@@ -125,7 +125,6 @@ class TestGetSeveralAudioFeatures(unittest.TestCase):
 
     Partition on response:
         - response is valid
-        - response is invalid
     """
     # covers: client credential flow, response is valid
     def test_valid_client_cred(self):
@@ -137,21 +136,6 @@ class TestGetSeveralAudioFeatures(unittest.TestCase):
         ]
         client.track.getSeveralAudioFeatures(trackIds)
 
-    # covers: client credential flow, response is invalid
-    def test_invalid_client_cred(self):
-        client = SpotifyClient.usingClientCredential(CLIENT_ID, CLIENT_SECRET)
-        trackIds = [
-            "invalid id1",
-            "invalid id2",
-            "invalid id3" 
-        ]
-        with self.assertRaises(HTTPError): 
-            client.track.getSeveralAudioFeatures(trackIds)
-
     # covers: authorization code flow, response is valid
     def test_valid_auth_code(self):
-        pass #TODO
-
-    # covers: authorization code flow, response is invalid
-    def test_invalid_auth_code(self):
         pass #TODO
