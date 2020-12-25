@@ -84,18 +84,27 @@ class TrackManager(object):
         return response
 
 
-    def getSeveralAudioFeatures(self, spotifyIds: list) -> dict:
+    def getSeveralAudioFeatures(self, trackIds: list) -> dict:
         """
         Get audio features for multiple tracks with the given Spotify ids.
         Maximum of 100 ids.
 
         Args:
-            spotifyIds (list): The list of Spotify track ids.
+            trackIds (list): The list of Spotify track ids.
 
         Returns:
             dict: response from Spotify Web API, collection of audio features objects in json format
         """
-        pass
+        assert len(trackIds) <= 100, "expected len(trackIds) <= 100"
+
+        # define param and header args for request
+        url = BASE_URL + "/audio-features"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"ids": ",".join(trackIds)}
+        
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
 
     def getAudioAnalysis(self) -> dict:
