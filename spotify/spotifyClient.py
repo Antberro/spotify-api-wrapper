@@ -1,6 +1,8 @@
 import requests
 from spotify.authManager import AuthManager, ClientCredentialFlow, AuthorizationCodeFlow
-from spotify.constant import BASE_URL
+from spotify.trackManager import TrackManager
+from spotify.constant import BASE_URL, STATUS_OK
+
 
 class SpotifyClient(object):
     """
@@ -17,6 +19,8 @@ class SpotifyClient(object):
         """
         self.authManager = authManager
         self.token = self.authManager.getToken()
+
+        self.track = TrackManager(self)
 
     @classmethod
     def usingClientCredential(cls, clientId: str, clientSecret: str):
@@ -62,3 +66,30 @@ class SpotifyClient(object):
                                          state,
                                          showDialog)
         return cls(authFlow)
+
+    def _sendHTTPRequest(self, method: str, url: str, params: dict = {}, headers: dict = {}) -> dict:
+        """
+        Sends an HTTP request to the given url with the given param and header arguments.
+
+        Args:
+            method (str): One of GET, POST, PUT, or DELETE.
+            url (str): The endpoint url.
+            params (dict, optional): The parameters of the HTTP request. Defaults to {}.
+            headers (dict, optional): The headers of the HTTP request. Defaults to {}.
+
+        Raises:
+            response.raise_for_status: If request or response is invalid.
+
+        Returns:
+            dict: response from the HTTP request as json data
+        """
+        # send request
+        if method == "GET":
+            response = requests.get(url, params=params, headers=headers)
+
+        # handle response
+        if response.status_code == STATUS_OK:
+            responseData = response.json()
+            return responseData
+        else:
+            raise response.raise_for_status()
