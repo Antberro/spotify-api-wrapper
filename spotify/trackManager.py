@@ -38,7 +38,17 @@ class TrackManager(object):
         return response
 
 
-    def getSeveralTracks(self) -> dict:
+    def getSeveralTracks(self, trackIds: list, market: str = None) -> dict:
+        """
+        Get multiple tracks with the given Spotify ids. Max of 50.
+
+        Args:
+            trackIds (list): [description]
+            market (str, optional): [description]. Defaults to None.
+
+        Returns:
+            dict: [description]
+        """
         pass
 
 
