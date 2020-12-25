@@ -1,23 +1,39 @@
 import unittest
 from requests import HTTPError
-import spotify.track as track
+from spotify.spotifyClient import SpotifyClient
+from spotify.constant import CLIENT_ID, CLIENT_SECRET
 
 
 class TestGetTrack(unittest.TestCase):
     """
     Testing Strategy
 
+    Partition on authorization flow:
+        - client credential flow
+        - authorization code
+
     Partition on response:
         - response is valid
         - response is invalid
     """
-
-    def test_valid_response(self):
+    
+    # covers: client credential flow, response is valid
+    def test_valid_client_cred(self):
+        client = SpotifyClient.usingClientCredential(CLIENT_ID, CLIENT_SECRET)
         trackId = "1LeWIs2hP2r5yOQnVuYoI5"
-        result = track.getTrack(trackId)
-        self.assertTrue(isinstance(result, dict), "expected response to be a dictionary")
+        client.track.getTrack(trackId)
 
-    def test_invalid_response(self):
+    # covers: client credential flow, response is invalid
+    def test_invalid_client_cred(self):
+        client = SpotifyClient.usingClientCredential(CLIENT_ID, CLIENT_SECRET)
         trackId = "invalid id"
         with self.assertRaises(HTTPError): 
-            track.getTrack(trackId)
+            client.track.getTrack(trackId)
+
+    # covers: authorization code flow, response is valid
+    def test_valid_auth_code(self):
+        pass #TODO
+
+    # covers: authorization code flow, response is invalid
+    def test_invalid_auth_code(self):
+        pass #TODO
