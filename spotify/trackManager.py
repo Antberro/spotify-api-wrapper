@@ -107,5 +107,15 @@ class TrackManager(object):
         return response
 
 
-    def getAudioAnalysis(self) -> dict:
+    def getAudioAnalysis(self, trackId: str) -> dict:
+        """
+        Get an audio analysis describing the structure and musical content of the track with
+        the specified Spotify id.
+
+        Args:
+            trackId (str): The Spotify id for the track.
+
+        Returns:
+            dict: response from Spotify Web API, an audio analysis object in json format
+        """
         pass
