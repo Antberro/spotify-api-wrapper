@@ -1,5 +1,4 @@
-import requests
-from spotify.constant import BASE_URL, CLIENT_ID, CLIENT_SECRET, STATUS_OK
+from spotify.constant import BASE_URL
 
 
 class TrackManager(object):
