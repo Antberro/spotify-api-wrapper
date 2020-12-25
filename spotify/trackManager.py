@@ -118,4 +118,12 @@ class TrackManager(object):
         Returns:
             dict: response from Spotify Web API, an audio analysis object in json format
         """
-        pass
+
+        # define param and header args for request
+        url = BASE_URL + "/audio-analysis/" + trackId
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}  
+        params = {}  
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
