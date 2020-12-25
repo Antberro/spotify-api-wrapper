@@ -50,7 +50,7 @@ class TrackManager(object):
             dict: response from Spotify Web API, collection of track objects in json format
         """
         assert len(trackIds) <= 50, "expected len(trackIds) <= 50"
-        
+
         # define param and header args for request
         url = BASE_URL + "/tracks"
         headers = {"Authorization": "Bearer " + self.client.token}
@@ -63,8 +63,17 @@ class TrackManager(object):
         return response
 
 
-    def getAudioFeatures(self) -> dict:
-        pass
+    def getAudioFeatures(self, trackId: str) -> dict:
+        """
+        Get audio features for the track with the given Spotify id.
+
+        Args:
+            trackId (str): The Spotify id for the track.
+
+        Returns:
+            dict: response from Spotify Web API, an audio feature object in json format
+        """
+        
 
 
     def getSeveralAudioFeatures(self) -> dict:
