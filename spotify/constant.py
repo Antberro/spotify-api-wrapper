@@ -8,5 +8,6 @@ BASE_URL = "https://api.spotify.com/v1"
 STATUS_OK = 200
 STATUS_CREATED = 201
 
+# FOR DEVELOPMENT
 CLIENT_ID = os.environ.get("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("SPOTIFY_SECRET")
