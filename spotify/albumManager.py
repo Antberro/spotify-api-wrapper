@@ -41,7 +41,7 @@ class AlbumManager(object):
         """
         pass
 
-    def getTracksOfAlbum(self, albumId: str, limit: int = 20, offset: int = 0, market: str = None) -> dict:
+    def getTracks(self, albumId: str, limit: int = 20, offset: int = 0, market: str = None) -> dict:
         """
         Get the tracks of the album with the given albumId.
 
