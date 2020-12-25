@@ -84,7 +84,17 @@ class TrackManager(object):
         return response
 
 
-    def getSeveralAudioFeatures(self) -> dict:
+    def getSeveralAudioFeatures(self, spotifyIds: list) -> dict:
+        """
+        Get audio features for multiple tracks with the given Spotify ids.
+        Maximum of 100 ids.
+
+        Args:
+            spotifyIds (list): The list of Spotify track ids.
+
+        Returns:
+            dict: response from Spotify Web API, collection of audio features objects in json format
+        """
         pass
 
 
