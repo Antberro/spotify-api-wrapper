@@ -64,7 +64,15 @@ class ArtistManager(object):
         Returns:
             dict: response from Spotify Web API, a collection of album objects wrapped in a paging object in json format
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/artists/" + artistId + "/albums"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"include_groups": includeGroups, "country": country, "limit": limit, "offset": offset}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     def getTopTracks(self, artistId: str, country: str = "US") -> dict:
         """
