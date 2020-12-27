@@ -102,7 +102,7 @@ class TestGetTracks(unittest.TestCase):
     # covers: client credential flow, response is invalid
     def test_invalid_client_cred(self):
         client = SpotifyClient.usingClientCredential(CLIENT_ID, CLIENT_SECRET)
-        albumId = "6cx4GVNs03Pu4ZczRnWiLd"
+        albumId = ""
         with self.assertRaises(HTTPError): 
             client.album.getTracks(albumId)
 
