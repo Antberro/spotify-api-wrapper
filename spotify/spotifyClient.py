@@ -119,9 +119,10 @@ class SpotifyClient(object):
         # send request
         if method == "GET":
             response = requests.get(url, params=params, headers=headers)
+            successCode = STATUS_OK
 
         # handle response
-        if response.status_code == STATUS_OK:
+        if response.status_code == successCode:
             responseData = response.json()
             return responseData
         else:
