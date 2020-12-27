@@ -64,9 +64,9 @@ class TestGetSeveralAlbums(unittest.TestCase):
     # covers: client credential flow, response is invalid
     def test_invalid_client_cred(self):
         client = SpotifyClient.usingClientCredential(CLIENT_ID, CLIENT_SECRET)
-        albumId1 = "6cx4GVNs03Pu4ZczRnWiLd"
-        albumId2 = "5z090LQztiqh13wYspQvKQ"
-        albumId3 = "0BwWUstDMUbgq2NYONRqlu"
+        albumId1 = ""
+        albumId2 = ""
+        albumId3 = ""
         albumIds = [albumId1, albumId2, albumId3]
         with self.assertRaises(HTTPError): 
             client.album.getSeveralAlbums(albumIds)
