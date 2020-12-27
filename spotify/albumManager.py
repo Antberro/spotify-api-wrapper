@@ -49,7 +49,7 @@ class AlbumManager(object):
         """
 
         # define param and header args for request
-        url = BASE_URL + "/albums/"
+        url = BASE_URL + "/albums"
         headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
         params = {"ids": ",".join(albumIds)}
         if market:
@@ -72,4 +72,14 @@ class AlbumManager(object):
         Returns:
             dict: response from Spotify Web API, a collection of track objects wrapped in a paging object in json format
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/albums/" + albumId + "/tracks"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"limit": limit, "offset": offset}
+        if market:
+            params["market"] = market
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
