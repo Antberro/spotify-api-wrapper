@@ -105,4 +105,12 @@ class ArtistManager(object):
         Returns:
             dict: response from Spotify Web API, a collection of at most 20 artist objects in json format
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/artists/" + artistId + "/related-artists"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
