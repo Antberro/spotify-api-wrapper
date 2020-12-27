@@ -26,7 +26,15 @@ class AlbumManager(object):
         Returns:
             dict: response from Spotify Web API, a album object in json format
         """
-        pass
+
+        # define param and header args for request
+        url = BASE_URL + "/albums/" + albumId
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"market": market} if market else {}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     def getSeveralAlbums(self, albumIds: list, market: str = None) -> dict:
         """
