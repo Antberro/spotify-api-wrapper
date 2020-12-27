@@ -2,6 +2,9 @@ from spotify.constant import BASE_URL
 
 
 class ArtistManager(object):
+    """
+    Class responsible for managing requests about artists to the Spotify Web API.
+    """
 
     def __init__(self, client):
         self.client = client
@@ -16,7 +19,15 @@ class ArtistManager(object):
         Returns:
             dict: response from Spotify Web API, an artist object in json format
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/artists/" + artistId
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     def getSeveralArtists(self, artistIds: list) -> dict:
         """
