@@ -20,6 +20,8 @@ class PlaylistManager(object):
         """
         Get all the playlists owned or followed by current Spotify user.
 
+        Requires scope: "playlist-read-private" or "playlist-read-collaborative"
+
         Args:
             limit (int, optional): The maximum number of tracks to return. Range from [1, 50]. Defaults to 20.
             offset (int, optional): The index of the first track to return. Maximum of 100. Defaults to 0.
@@ -27,7 +29,15 @@ class PlaylistManager(object):
         Returns:
             dict: response from Spotify Web API, a collection of playlist objects wrapped in a paging object in json format
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/me/playlists"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"limit": limit, "offset": offset}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     # Get a List of a User's Playlists
     def getPlaylistsOfUser(self, userId: str, limit: int = 20, offset: int = 0) -> dict:
