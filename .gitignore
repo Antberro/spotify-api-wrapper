@@ -1,5 +1,5 @@
 # cache file
-spotify/cache.json
+*.json
 
 # Vscode
 .vscode/
