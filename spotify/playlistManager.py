@@ -143,11 +143,12 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("GET", url, params, headers)
         return response
 
-    # Create a Playlist
     def createPlaylist(self, userId: str, name: str, public: bool = True, 
                        collaborative: bool = False, description: str = None) -> dict:
         """
         Create a new playlist for the given Spotify user. Playlist is initially empty.
+
+        Requires scope: "playlist-modify-public" or "playlist-modify-private"
 
         Args:
             userId (str): The Spotify id for the user.
@@ -159,9 +160,24 @@ class PlaylistManager(object):
         Returns:
             dict: response from Spotify Web API, the newly created playlist object in json format
         """
-        pass
 
-     # Add Items to a Playlist
+        # define param and header args for request
+        url = BASE_URL + "/users/" + userId + "/playlists"
+        headers = {
+            "Authorization": "Bearer " + self.client.getCurrentToken(),
+            "Content-Type": "application/json"
+            }
+        params = {
+            "name": name,
+            "public": public,
+            "collaborative": collaborative,
+            "description": description
+        }
+
+        # send request
+        response = self.client._sendHTTPRequest("POST", url, params, headers)
+        return response
+
     def addTrack(self, playlistId: str, uris: list, position: int = None) -> dict:
         """
         Add one or more tracks to a Spotify user's playlist.
