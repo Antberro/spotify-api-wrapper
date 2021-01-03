@@ -1,6 +1,6 @@
 import os
 import json
-from spotify.constant import CACHE_FILE
+from spotify.constant import CACHE_PATH
 
 
 class CacheHandler(object):
@@ -13,7 +13,7 @@ class CacheHandler(object):
         """
         Creates an instance of CacheHandler.
         """
-        self.filepath = os.path.join(os.getcwd(), "spotify", CACHE_FILE)
+        self.filepath = CACHE_PATH
 
     def loadData(self, field: str):
         """
