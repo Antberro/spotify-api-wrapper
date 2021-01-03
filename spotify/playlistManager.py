@@ -15,7 +15,6 @@ class PlaylistManager(object):
         """
         self.client = client
 
-    # Get a List of Current User's Playlists
     def getMyPlaylists(self, limit: int = 20, offset: int = 0) -> dict:
         """
         Get all the playlists owned or followed by current Spotify user.
@@ -39,10 +38,11 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("GET", url, params, headers)
         return response
 
-    # Get a List of a User's Playlists
     def getPlaylistsOfUser(self, userId: str, limit: int = 20, offset: int = 0) -> dict:
         """
         Get all the playlists owned or followed by the given Spotify user.
+
+        Requires scope: "playlist-read-private" or "playlist-read-collaborative"
 
         Args:
             userId (str): The Spotify id for the user.
@@ -52,7 +52,15 @@ class PlaylistManager(object):
         Returns:
             dict: response from Spotify Web API, a collection of playlist objects wrapped in a paging object in json format
         """
-        pass
+
+        # define param and header args for request
+        url = BASE_URL + "/users/" + userId + "/playlists"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"limit": limit, "offset": offset}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     # Get a Playlist Cover Image
     def getCoverImage(self, playlistId: str) -> dict:
