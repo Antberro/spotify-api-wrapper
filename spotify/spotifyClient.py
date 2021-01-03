@@ -5,6 +5,7 @@ from spotify.authManager import AuthManager, ClientCredentialFlow, Authorization
 from spotify.trackManager import TrackManager
 from spotify.albumManager import AlbumManager
 from spotify.artistManager import ArtistManager
+from spotify.playlistManager import PlaylistManager
 
 
 class SpotifyClient(object):
@@ -33,6 +34,7 @@ class SpotifyClient(object):
         self.track = TrackManager(self)
         self.album = AlbumManager(self)
         self.artist = ArtistManager(self)
+        self.playlist = PlaylistManager(self)
 
     @classmethod
     def usingClientCredential(cls, clientId: str, clientSecret: str):
