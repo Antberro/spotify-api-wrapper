@@ -93,7 +93,7 @@ class SpotifyClient(object):
         # check if token is about to expire
         if timeDifference >= self.expiresIn - REFRESH_BUFFER:
             print("Token Expired! Getting new token...")  #TODO remove this line later
-            authResponse = self.authManager.authorize()
+            authResponse = self.authManager.authorize(refresh=True)
             self.creationTime = datetime.now()
             self.token = authResponse["access_token"]
             self.expiresIn = authResponse["expires_in"]
