@@ -84,10 +84,11 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("GET", url, params, headers)
         return response
 
-    # Get a Playlist
     def getPlaylist(self, playlistId: str, fields: str = None, market: str = None) -> dict:
         """
         Get a playlist with the given playlistId owned by a Spotify user.
+
+        Requires scope: "playlist-read-private" or "playlist-read-collaborative"
 
         Args:
             playlistId (str): The Spotify id for the playlist.
@@ -97,7 +98,19 @@ class PlaylistManager(object):
         Returns:
             dict: response from Spotify Web API, a playlist object in json format
         """
-        pass
+
+        # define param and header args for request
+        url = BASE_URL + "/playlists/" + playlistId
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {}
+        if fields:
+            params["fields"] = fields
+        if market:
+            params["market"] = market
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     # Get a Playlist's Items
     def getPlaylistTracks(self, playlistId: str, fields: str = None, 
