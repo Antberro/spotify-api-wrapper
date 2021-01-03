@@ -128,6 +128,9 @@ class SpotifyClient(object):
         elif method == "POST":
             response = requests.post(url, json=params, headers=headers)
 
+        elif method == "DELETE":
+            response = requests.delete(url, json=params, headers=headers)
+
         # handle response
         if response.status_code in successCodes:
             responseData = response.json()
