@@ -62,10 +62,11 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("GET", url, params, headers)
         return response
 
-    # Get a Playlist Cover Image
     def getCoverImage(self, playlistId: str) -> dict:
         """
         Get the current cover image for the given playlistId.
+
+        Requires scope: "playlist-read-private" or "playlist-read-collaborative"
 
         Args:
             playlistId (str): The Spotify id for the playlist.
@@ -73,7 +74,15 @@ class PlaylistManager(object):
         Returns:
             dict: response from Spotify Web API, a collection of image objects in json format
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/playlists/" + playlistId + "/images"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {}
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
     # Get a Playlist
     def getPlaylist(self, playlistId: str, fields: str = None, market: str = None) -> dict:
