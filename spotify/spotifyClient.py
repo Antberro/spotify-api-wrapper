@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from spotify.constant import BASE_URL, STATUS_OK, REFRESH_BUFFER
+from spotify.constant import BASE_URL, STATUS_OK, STATUS_CREATED, REFRESH_BUFFER
 from spotify.authManager import AuthManager, ClientCredentialFlow, AuthorizationCodeFlow
 from spotify.trackManager import TrackManager
 from spotify.albumManager import AlbumManager
@@ -118,13 +118,18 @@ class SpotifyClient(object):
         Returns:
             dict: response from the HTTP request as json data
         """
+
+        successCodes = [STATUS_OK, STATUS_CREATED]
+
         # send request
         if method == "GET":
             response = requests.get(url, params=params, headers=headers)
-            successCode = STATUS_OK
+
+        elif method == "POST":
+            response = requests.post(url, json=params, headers=headers)
 
         # handle response
-        if response.status_code == successCode:
+        if response.status_code in successCodes:
             responseData = response.json()
             return responseData
         else:
