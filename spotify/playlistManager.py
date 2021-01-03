@@ -178,7 +178,7 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("POST", url, params, headers)
         return response
 
-    def addTrack(self, playlistId: str, uris: list, position: int = None) -> dict:
+    def addTracks(self, playlistId: str, tracks: list, position: int = None) -> dict:
         """
         Add one or more tracks to a Spotify user's playlist.
 
@@ -186,7 +186,7 @@ class PlaylistManager(object):
 
         Args:
             playlistId (str): The Spotify id for the playlist.
-            uris (list): List of Spotify uris to add. Maximum of 100.
+            tracks (list): List of Spotify uris to add. Maximum of 100.
             position (int, optional): The position to insert the items. If not specified, items are appended to the end. Defaults to None.
 
         Returns:
@@ -199,7 +199,7 @@ class PlaylistManager(object):
             "Authorization": "Bearer " + self.client.getCurrentToken(),
             "Content-Type": "application/json"
             }
-        params = {"uris": uris}
+        params = {"uris": tracks}
         if position:
             params["position"] = position
 
@@ -207,10 +207,11 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("POST", url, params, headers)
         return response
 
-    # Remove Items from a Playlist
-    def removeTrack(self, playlistId: str, tracks: list, positions: list = None , snapshotId: str = None) -> dict:
+    def removeTracks(self, playlistId: str, tracks: list, positions: list = None , snapshotId: str = None) -> dict:
         """
         Remove one or more tracks from a Spotify user's playlist.
+
+        Requires scope: "playlist-modify-public" or "playlist-modify-private"
 
         Args:
             playlistId (str): The Spotify id for the playlist.
@@ -221,7 +222,26 @@ class PlaylistManager(object):
         Returns:
             dict: response from Spotify Web API, a snapshot id in json format; used to identify the playlist version in future requests
         """
-        pass
+        
+        # define param and header args for request
+        url = BASE_URL + "/playlists/" + playlistId + "/tracks"
+        headers = {
+            "Authorization": "Bearer " + self.client.getCurrentToken(),
+            "Content-Type": "application/json"
+            }
+        data = []
+        for i in range(len(tracks)):
+            item = {"uri": tracks[i]}
+            if positions:
+                item["positions"] = positions[i]
+            data.append(item)
+        params = {"tracks": data}
+        if snapshotId:
+            params["snapshot_id"] = snapshotId
+
+        # send request
+        response = self.client._sendHTTPRequest("DELETE", url, params, headers)
+        return response
 
     # Change a Playlist's Details
     def changeDetails(self, playlistId: str, name: str, public: bool, collaborative: bool, description: str):
