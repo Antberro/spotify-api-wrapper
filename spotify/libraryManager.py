@@ -40,6 +40,29 @@ class LibraryManager(object):
         response = self.client._sendHTTPRequest("GET", url, params, headers)
         return response
 
-    def getSavedAlbums(self):
-        pass
+    def getSavedAlbums(self, limit: int = 20, offset: int = 0, market: str = None) -> dict:
+        """
+        Get a list of albums saved by current Spotify user.
+
+        Requires scope: "user-library-read"
+
+        Args:
+            limit (int, optional): The maximum number of tracks to return. Range from [1, 50]. Defaults to 20.
+            offset (int, optional): The index of the first track to return. Defaults to 0.
+            market (str, optional): A country code or "from_token"; used for Track Relinking. Defaults to None.
+
+        Returns:
+            dict: response from Spotify Web API, a collection of track objects wrapped in a paging object in json format
+        """
+        
+        # define param and header args for request
+        url = BASE_URL + "/me/albums"
+        headers = {"Authorization": "Bearer " + self.client.getCurrentToken()}
+        params = {"limit": limit, "offset": offset}
+        if market:
+            params["market"] = market
+
+        # send request
+        response = self.client._sendHTTPRequest("GET", url, params, headers)
+        return response
 
