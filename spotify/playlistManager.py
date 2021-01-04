@@ -243,10 +243,11 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("DELETE", url, params, headers)
         return response
 
-    # Change a Playlist's Details
     def changeDetails(self, playlistId: str, name: str, public: bool, collaborative: bool, description: str):
         """
         Change a playlist's name and public/private state. The playlist must be owned by the Spotify user.
+
+        Requires scope: "playlist-modify-public" or "playlist-modify-private"
 
         Args:
             playlistId (str): The Spotify id for the playlist.
@@ -255,7 +256,23 @@ class PlaylistManager(object):
             collaborative (bool): True if the playlist is collaborative. False, otherwise.
             description (str): Description of the playlist.
         """
-        pass
+
+        # define param and header args for request
+        url = BASE_URL + "/playlists/" + playlistId
+        headers = {
+            "Authorization": "Bearer " + self.client.getCurrentToken(),
+            "Content-Type": "application/json"
+            }
+        params = {
+            "name": name,
+            "public": public,
+            "collaborative": collaborative,
+            "description": description
+        }
+
+        # send request
+        response = self.client._sendHTTPRequest("PUT", url, params, headers)
+        return response
 
     # Reorder a Playlist's Items
     def reorderPlaylist(self, playlistId: str, rangeStart: int, insertBefore: int, rangeLength: int = 1, snapshotId: str = None) -> dict:
