@@ -7,7 +7,7 @@ class LibraryManager(object):
 
     def __init__(self, client):
         """
-        Creates an instance of PlaylistManager.
+        Creates an instance of LibraryManager.
 
         Args:
             client (SpotifyClient): The client to send requests to.
