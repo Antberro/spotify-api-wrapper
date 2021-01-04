@@ -1,4 +1,5 @@
 import requests
+import json
 from datetime import datetime
 from spotify.constant import BASE_URL, STATUS_OK, STATUS_CREATED, REFRESH_BUFFER
 from spotify.authManager import AuthManager, ClientCredentialFlow, AuthorizationCodeFlow
@@ -131,9 +132,12 @@ class SpotifyClient(object):
         elif method == "DELETE":
             response = requests.delete(url, json=params, headers=headers)
 
+        elif method == "PUT":
+            response = requests.put(url, json=params, headers=headers)
+
         # handle response
         if response.status_code in successCodes:
-            responseData = response.json()
+            responseData = response.json() if method != "PUT" else None
             return responseData
         else:
             raise response.raise_for_status()
