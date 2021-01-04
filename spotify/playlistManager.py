@@ -274,7 +274,6 @@ class PlaylistManager(object):
         response = self.client._sendHTTPRequest("PUT", url, params, headers)
         return response
 
-    # Reorder a Playlist's Items
     def reorderPlaylist(self, playlistId: str, rangeStart: int, insertBefore: int, rangeLength: int = 1, snapshotId: str = None) -> dict:
         """
         Reorder a track or group of tracks in a playlist.
@@ -291,7 +290,6 @@ class PlaylistManager(object):
         """
         pass
 
-    # Replace a Playlist's Items
     def replaceTracks(self, playlistId: str, uris: list):
         """
         Replace all the items in a playlist, overwriting its existing items.
@@ -302,7 +300,6 @@ class PlaylistManager(object):
         """
         pass
 
-    # Upload a Custom Playlist Cover Image
     def uploadCoverImage(self, playlistId: str, image: str):
         """
         Replace the cover image for the given playlistId.
