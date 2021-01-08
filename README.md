@@ -1,6 +1,6 @@
 # SPOTIFY-API-WRAPPER
 
-An API wrapper of the Spotify Web API. It currently covers a subset of the available topics in the API. The follwing topics have full or partial support.
+An API wrapper of the Spotify Web API. It currently covers a subset of the available topics in the API. The following topics have full or partial support.
 
 * Track
 * Artist
@@ -10,7 +10,7 @@ An API wrapper of the Spotify Web API. It currently covers a subset of the avail
 
 ## Creating a SpotifyClient
 
-The wrapper consists of the SpotifyClient object. A client can be created using various authentication flows. Currently implements the Client Credential Flow and Authorization Code Flow.
+The wrapper consists of the SpotifyClient object. A client can be created using various authorization flows. Currently implements the Client Credential Flow and Authorization Code Flow.
 
 ### Client Credential Flow
 
