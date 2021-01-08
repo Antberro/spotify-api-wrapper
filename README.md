@@ -10,7 +10,7 @@ Create client with multiple authorization flows.
 
 Description of flow.
 
-```
+```python
 from spotify.spotifyClient import SpotifyClient
 
 client = SpotifyClient.usingClientCredential()
@@ -20,8 +20,18 @@ client = SpotifyClient.usingClientCredential()
 
 Description of flow.
 
-```
+```python
 from spotify.spotifyClient import SpotifyClient
 
 client = SpotifyClient.usingAuthorizationCode()
 ```
+
+## API Categories
+
+Description of catagories.
+
+* Track
+* Artist
+* Album
+* Playlist
+* Library
