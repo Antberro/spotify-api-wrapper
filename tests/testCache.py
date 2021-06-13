@@ -1,6 +1,5 @@
 import unittest
-from spotify.spotifyClient import SpotifyClient
-from spotify import cache
+from spotify.cache import MemoryCache, LocalCache
 
 
 class TestMemoryCache(unittest.TestCase):
@@ -16,11 +15,11 @@ class TestMemoryCache(unittest.TestCase):
         - item is in cache
         - item is not in cache
     """
-    
+
     # covers: save item, get item, empty, item is in cache
     def test_item_in_cache(self):
 
-        cache = cache.MemoryCache()
+        cache = MemoryCache()
         keys = ['a', 'b', 'c']
         values = ['aaa', 'bbb', 'ccc']
 
@@ -29,7 +28,7 @@ class TestMemoryCache(unittest.TestCase):
             cache.save(keys[i], values[i])
 
         # get items from cache
-    	for i in range(len(keys)):
+        for i in range(len(keys)):
             item = cache.get(keys[i])
             self.assertEqual(item, values[i], "expected values to be equal")
 
@@ -39,7 +38,7 @@ class TestMemoryCache(unittest.TestCase):
     # covers: get item, item is not in cache
     def test_item_not_in_cache(self):
 
-        cache = cache.MemoryCache()
+        cache = MemoryCache()
         with self.assertRaises(KeyError): 
             cache.get('a')
 
@@ -61,7 +60,7 @@ class TestLocalCache(unittest.TestCase):
     # covers: save item, get item, empty, item is in cache
     def test_item_in_cache(self):
 
-        cache = cache.LocalCache()
+        cache = LocalCache()
         keys = ['a', 'b', 'c']
         values = ['aaa', 'bbb', 'ccc']
 
@@ -70,7 +69,7 @@ class TestLocalCache(unittest.TestCase):
             cache.save(keys[i], values[i])
 
         # get items from cache
-    	for i in range(len(keys)):
+        for i in range(len(keys)):
             item = cache.get(keys[i])
             self.assertEqual(item, values[i], "expected values to be equal")
 
@@ -80,6 +79,6 @@ class TestLocalCache(unittest.TestCase):
     # covers: get item, item is not in cache
     def test_item_not_in_cache(self):
 
-        cache = cache.LocalCache()
+        cache = LocalCache()
         with self.assertRaises(KeyError): 
             cache.get('a')
