@@ -1,8 +1,12 @@
+# venv
+spotify-api-env/
+
 # cache file
 *.json
 
 # Vscode
 .vscode/
+.vs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
